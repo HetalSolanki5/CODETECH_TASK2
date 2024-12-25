@@ -1,0 +1,71 @@
+class GradeManager:
+    def __init__(self):
+        self.grades = {}
+
+    def add_grade(self, subject, grade):
+        if subject in self.grades:
+            self.grades[subject].append(grade)
+        else:
+            self.grades[subject] = [grade]
+
+    def calculate_average(self):
+        total_grades = 0
+        total_subjects = 0
+        for subject, grades in self.grades.items():
+            total_grades += sum(grades)
+            total_subjects += len(grades)
+        return total_grades / total_subjects if total_subjects > 0 else 0
+
+    def get_letter_grade(self, average):
+        if average >= 90:
+            return 'A'
+        elif average >= 80:
+            return 'B'
+        elif average >= 70:
+            return 'C'
+        elif average >= 60:
+            return 'D'
+        else:
+            return 'F'
+
+    def get_gpa(self, average):
+        if average >= 90:
+            return 4.0
+        elif average >= 80:
+            return 3.0
+        elif average >= 70:
+            return 2.0
+        elif average >= 60:
+            return 1.0
+        else:
+            return 0.0
+
+    def display_grades(self):
+        print("\nGrades Summary:")
+        for subject, grades in self.grades.items():
+            print(f"{subject}: {grades}")
+
+def main():
+    manager = GradeManager()
+    
+    while True:
+        subject = input("Enter the subject (or 'exit' to finish): ")
+        if subject.lower() == 'exit':
+            break
+        try:
+            grade = float(input(f"Enter the grade for {subject}: "))
+            manager.add_grade(subject, grade)
+        except ValueError:
+            print("Invalid input. Please enter a numeric grade.")
+
+    average = manager.calculate_average()
+    letter_grade = manager.get_letter_grade(average)
+    gpa = manager.get_gpa(average)
+
+    manager.display_grades()
+    print(f"\nAverage Grade: {average:.2f}")
+    print(f"Letter Grade: {letter_grade}")
+    print(f"GPA: {gpa:.2f}")
+
+if __name__ == "__main__":
+    main()
